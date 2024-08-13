@@ -23,3 +23,35 @@
 •⁠  ⁠O sistema deve atualizar a lista de alunos matriculados na disciplina.
 
 •⁠  ⁠O sistema deve notificar o aluno sobre o sucesso ou falha do cancelamento.
+
+## História 3: Ativação de Disciplinas
+
+### *Como* administrador, *eu quero* verificar o número de alunos matriculados em cada disciplina, *para que* eu possa decidir se a disciplina será oferecida no próximo semestre.
+
+*Critérios de Aceitação:*
+
+•⁠ A disciplina deve ter pelo menos 3 alunos matriculados para ser ativada.
+  
+•⁠ O sistema deve cancelar disciplinas com menos de 3 alunos matriculados.
+  
+•⁠ O sistema deve notificar os alunos e professores sobre o status da disciplina.
+
+## História 4: Consulta de Matrículas
+
+### *Como* professor, *eu quero* acessar a lista de alunos matriculados em minhas disciplinas, *para que* eu possa planejar minhas aulas.
+
+*Critérios de Aceitação:*
+
+•⁠ O professor deve poder visualizar a lista de alunos matriculados em cada disciplina que ele ministra.
+
+•⁠ O sistema deve garantir que apenas o professor da disciplina tenha acesso a essa lista.
+
+## História 5: Notificação de Cobrança
+
+### *Como* sistema de cobranças, *eu quero* ser notificado sobre as matrículas dos alunos, *para que* eu possa gerar as cobranças correspondentes.
+
+*Critérios de Aceitação:*
+
+•⁠ O sistema de matrículas deve enviar notificações ao sistema de cobranças após a confirmação das matrículas.
+
+•⁠ O sistema de cobranças deve registrar as disciplinas matriculadas para cada aluno.
