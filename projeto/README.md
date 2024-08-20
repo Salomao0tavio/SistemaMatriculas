@@ -55,3 +55,17 @@
 •⁠ O sistema de matrículas deve enviar notificações ao sistema de cobranças após a confirmação das matrículas.
 
 •⁠ O sistema de cobranças deve registrar as disciplinas matriculadas para cada aluno.
+
+## História 6: Consulta de Disciplinas Disponíveis
+
+### Como aluno, eu quero consultar as disciplinas disponíveis para matrícula, para que eu possa planejar meu semestre.
+
+*Critérios de Aceitação:*
+
+•⁠ O aluno deve poder visualizar a lista de todas as disciplinas oferecidas no próximo semestre, tanto obrigatórias quanto optativas.
+
+•⁠ O sistema deve mostrar informações relevantes sobre cada disciplina, como nome, código, professor responsável, número de créditos e vagas disponíveis.
+
+•⁠ O aluno deve poder filtrar as disciplinas por curso, obrigatoriedade (obrigatórias ou optativas), e disponibilidade de vagas.
+
+•⁠ O sistema deve garantir que as disciplinas exibidas estejam atualizadas com as vagas disponíveis no momento da consulta.
