@@ -1,4 +1,6 @@
 package com.matriculas.matriculas.Enums;
 
-public enum TiposDisciplina {
+public enum TipoDisciplina {
+    OBRIGATORIA,
+    OPTATIVA;
 }
