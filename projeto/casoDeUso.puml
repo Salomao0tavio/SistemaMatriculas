@@ -4,24 +4,24 @@ left to right direction
 actor Aluno
 actor Professor
 actor Administrador
-actor "Sistema de Cobranças" as SistemaCobrancas
 
 usecase "Matricular-se em Disciplinas" as UC1
 usecase "Cancelar Matrículas" as UC2
 usecase "Consultar Disciplinas Disponíveis" as UC3
 usecase "Consultar Alunos Matriculados" as UC4
 usecase "Ativar/Cancelar Disciplinas" as UC5
-usecase "Receber Notificações de Matrículas" as UC6
+usecase "Enviar notificação para o \nsistema de cobrança" as UC6
+usecase "Ver disciplinas" as UC7
 
-Aluno --> UC1
-Aluno --> UC2
 Aluno --> UC3
+Aluno --> UC7
+
+UC3 --> UC1
+UC1 --> UC6 : <<include>>
+UC7 --> UC2
 
 Professor --> UC4
 
 Administrador --> UC5
 
-SistemaCobrancas --> UC6
-
-UC1 --> UC6 : <<send>>
 @enduml
