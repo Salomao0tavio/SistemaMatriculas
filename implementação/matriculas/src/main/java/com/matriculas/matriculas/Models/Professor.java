@@ -6,26 +6,15 @@ import java.util.List;
 public class Professor {
     private int id;
     private final String nome;
-    private final List<Disciplina> disciplinas;
+    private final List<Turma> turmas;
 
-    /**
-     * Construtor para criar uma nova instância de Professor.
-     *
-     * @param nome  Nome do professor.
-     */
     public Professor(String nome) {
         this.nome = nome;
-        this.disciplinas = new ArrayList<>();
+        this.turmas = new ArrayList<>();
     }
 
-    /**
-     * Consulta a lista de alunos matriculados em uma disciplina específica.
-     *
-     * @param disciplina A disciplina que o professor deseja consultar.
-     * @return Lista de alunos matriculados na disciplina, se nao houver retorna uma lista vazia.
-     */
-    public List<Aluno> consultarAlunosMatriculados(Disciplina disciplina) {
-        ArrayList<Aluno> alunos = disciplina.getMatriculados();
+    public List<Aluno> consultarAlunosMatriculados(Turma turma) {
+        ArrayList<Aluno> alunos = turma.getMatriculados();
         if(!alunos.isEmpty())
             return alunos;
         return new ArrayList<>();

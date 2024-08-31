@@ -1,32 +1,23 @@
 package com.matriculas.matriculas.Models;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Matricula {
     private int id;
     private final Aluno aluno;
-    private final Disciplina disciplina;
-    private final Date dataMatricula;
+    private final Turma turma;
+    private final LocalDateTime dataMatricula;
 
-    /**
-     * Construtor para criar uma nova instância de Matricula.
-     *
-     * @param aluno      O aluno que está se matriculando.
-     * @param disciplina A disciplina na qual o aluno está se matriculando.
-     */
-    public Matricula(Aluno aluno, Disciplina disciplina) {
+    public Matricula(Aluno aluno, Turma turma) {
         this.aluno = aluno;
-        this.disciplina = disciplina;
-        this.dataMatricula = new Date(); // Define a data da matrícula como a data atual
+        this.turma = turma;
+        this.dataMatricula = LocalDateTime.now();
     }
 
-    /**
-     * Retorna a disciplina associada a esta matrícula.
-     *
-     * @return A disciplina em que o aluno está matriculado.
-     */
-    public Disciplina getDisciplina() {
-        return this.disciplina;
+    public Turma getTurma() {
+        return this.turma;
     }
 
 }
