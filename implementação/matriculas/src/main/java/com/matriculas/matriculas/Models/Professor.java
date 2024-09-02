@@ -3,7 +3,7 @@ package com.matriculas.matriculas.Models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Professor {
+public class Professor extends Usuario{
     private int id;
     private final String nome;
     private final List<Disciplina> disciplinas;

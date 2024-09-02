@@ -4,7 +4,7 @@ import com.matriculas.matriculas.Enums.TipoDisciplina;
 
 import java.util.ArrayList;
 
-public class Aluno {
+public class Aluno extends Usuario{
 
     private int id;
     private final String nome;

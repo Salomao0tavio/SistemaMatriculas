@@ -2,7 +2,7 @@ package com.matriculas.matriculas.Models;
 
 import java.util.List;
 
-public class Administrador {
+public class Administrador extends Usuario{
     private int id;
     private final String nome;
 
