@@ -1,22 +1,21 @@
 package com.matriculas.matriculas.Models;
 
+import com.matriculas.matriculas.Enums.Role;
 import com.matriculas.matriculas.Enums.TipoDisciplina;
 
 import java.util.ArrayList;
 
-public class Aluno extends Usuario{
+public class Aluno extends Usuario {
 
-    private int id;
-    private final String nome;
     private ArrayList<Matricula> matriculas;
 
     /**
      * Construtor para criar uma nova instância de Aluno.
      *
-     * @param nome  Nome do aluno.
+     * @param nome Nome do aluno.
      */
-    public Aluno(String nome) {
-        this.nome = nome;
+    public Aluno(String nome, String senha, int id) {
+        super(id, nome, senha, Role.ALUNO);
         this.matriculas = new ArrayList<>();
     }
 
@@ -91,12 +90,12 @@ public class Aluno extends Usuario{
     }
 
     /**
-     *
      * @param mensagem de aviso para o aluno
      */
-    public void receberNotificacao(String mensagem){
+    public void receberNotificacao(String mensagem) {
         //TODO: Implementacao
     }
+
     /**
      * Conta o número de disciplinas optativas em que o aluno está matriculado.
      *

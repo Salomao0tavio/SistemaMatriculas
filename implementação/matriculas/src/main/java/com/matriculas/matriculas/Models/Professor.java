@@ -1,11 +1,12 @@
 package com.matriculas.matriculas.Models;
 
+import com.matriculas.matriculas.Enums.Role;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Professor extends Usuario{
-    private int id;
-    private final String nome;
+
     private final List<Disciplina> disciplinas;
 
     /**
@@ -13,8 +14,8 @@ public class Professor extends Usuario{
      *
      * @param nome  Nome do professor.
      */
-    public Professor(String nome) {
-        this.nome = nome;
+    public Professor(String nome, int id, String senha ) {
+        super(id, nome, senha, Role.PROFESSOR);
         this.disciplinas = new ArrayList<>();
     }
 

@@ -1,18 +1,18 @@
 package com.matriculas.matriculas.Models;
 
+import com.matriculas.matriculas.Enums.Role;
+
 import java.util.List;
 
 public class Administrador extends Usuario{
-    private int id;
-    private final String nome;
 
     /**
      * Construtor para criar uma nova instância de Administrador.
      *
      * @param nome Nome do administrador.
      */
-    public Administrador(String nome) {
-        this.nome = nome;
+    public Administrador(String nome, String senha, int id) {
+        super(id, nome, senha, Role.ADMINISTRADOR);
     }
 
     /**

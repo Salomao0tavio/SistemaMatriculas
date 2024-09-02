@@ -11,6 +11,12 @@ public class Usuario {
     private String senha;
     private Role role;
 
+    public Usuario(int id, String nome, String senha, Role role){
+        this.id = id;
+        this.nome = nome;
+        this.senha = senha;
+        this.role = role;
+    }
     public boolean Login(Usuario u, String senha) throws NoSuchAlgorithmException{
         return u.getSenha().equals(encriptandoSenha(senha)) ? true : false;
     }
