@@ -1,0 +1,149 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontSize 14
+skinparam classFontColor Black
+skinparam shadowing true
+skinparam linetype ortho
+skinparam classBackgroundColor White
+skinparam classBorderColor Black
+skinparam classBorderThickness 1
+skinparam classHeaderBackgroundColor LightGray
+skinparam classHeaderFontColor White
+skinparam classAttributeFontSize 12
+skinparam classAttributeFontColor Black
+skinparam arrowColor Black
+skinparam arrowThickness 1
+skinparam arrowFontSize 13
+skinparam arrowFontColor Black
+skinparam nodesep 50
+skinparam ranksep 50
+
+package Models {
+    class Usuario {
+        +id: int
+        +nome: string
+        +senha: string
+        +role: Role
+        +login(u: Usuario, senha: String): boolean
+        +cadastro(nome: String, senha: String, role: Role): void
+    }
+
+    class Aluno extends Usuario {
+        +matriculas: List<Matricula>
+        +matricularEmDisciplina(disciplina: Disciplina): bool
+        +cancelarMatricula(disciplina: Disciplina): bool
+        +consultarDisciplinasDisponiveis(todasDisciplinas: List<Disciplina>): List<Disciplina>
+        +receberNotificacao(mensagem: string): void
+        +jaMatriculado(disciplina: Disciplina): bool
+    }
+
+    class Professor extends Usuario {
+        +disciplinas: List<Disciplina>
+        +consultarAlunosMatriculados(disciplina: Disciplina): List<Aluno>
+    }
+
+    class Administrador extends Usuario {
+        +verificarAtivacaoturma(turmas: List<Turma>): void
+        +notificarAlunos(turma: Turma, status: string): void
+        +notificarSistema(turma: Turma, status: string): void
+    }
+
+    class Turma {
+        +status: StatusDisciplina
+        +professor: Professor
+        +vagasDisponiveis: int
+        +status: StatusDisciplina
+        +matriculados: List<Aluno>
+        +semestreAno: String
+        +verificarDisponibilidade(): bool
+        +adicionarAluno(aluno: Aluno): bool
+        +removerAluno(aluno: Aluno): bool
+        +criarStringData(): String
+    }
+
+    class Disciplina {
+        +turmas: List<Turma>
+        +codigo: string
+        +nome: string
+        +creditos: int
+        +tipo: TipoDisciplina
+    }
+
+    class Matricula {
+        +id: int
+        +aluno: Aluno
+        +turma: Turma
+        +dataMatricula: LocalDateTime
+    }
+
+    class SistemaCobranca {
+        +registrarCobranca(turma: Turma): void
+        +cancelarCobrancaParaTurma(turma: Turma): void
+    }
+
+    enum TipoDisciplina {
+        Obrigatoria
+        Optativa
+    }
+
+    enum StatusDisciplina {
+        Disponivel
+        Cancelada
+        Finalizada
+        Indisponivel
+    }
+
+    enum Role {
+        Aluno
+        Professor
+        Administrador
+    }
+}
+
+package Dados {
+    interface Persistencia<T> {
+        +salvar(objeto: T): void
+        +carregar(id: Object): T
+        +atualizar(objeto: T): void
+        +remover(id: Object): void
+    }
+
+    class PersistenciaAluno implements Persistencia<Aluno> {
+        +salvar(aluno: Aluno): void
+        +carregar(id: int): Aluno
+        +atualizar(aluno: Aluno): void
+        +remover(id: int): void
+    }
+
+    class PersistenciaDisciplina implements Persistencia<Disciplina> {
+        +salvar(disciplina: Disciplina): void
+        +carregar(codigo: string): Disciplina
+        +atualizar(disciplina: Disciplina): void
+        +remover(codigo: string): void
+    }
+
+    class PersistenciaMatricula implements Persistencia<Matricula> {
+        +salvar(matricula: Matricula): void
+        +carregar(id: int): Matricula
+        +atualizar(matricula: Matricula): void
+        +remover(id: int): void
+    }
+
+    class PersistenciaUsuario implements Persistencia<Usuario> {
+        +salvar(usuario: Usuario): void
+        +carregar(nome: String, senha: String): Usuario
+        +atualizar(usuario: Usuario): void
+        +remover(id: int): void
+        +autenticar(nome: String, senha: String): Usuario
+    }
+}
+
+
+Aluno "1" --> "*" Matricula
+Turma "1" --> "*" Matricula : Contém
+Turma "*" <-- "1" Disciplina : Oferece
+Turma "1" --> "1" Professor : Relacionado
+Administrador --> Turma
+Matricula --> SistemaCobranca : Processa
+
+@enduml

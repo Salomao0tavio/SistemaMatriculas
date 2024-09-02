@@ -38,11 +38,6 @@ public class Usuario {
         return sb.toString();
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException{
-        Usuario u = new Usuario();
-        u.Cadastro("Carlos", "1", Role.ALUNO);
-        System.out.println(u.Login(u, "1"));
-    }
 
 }
 
