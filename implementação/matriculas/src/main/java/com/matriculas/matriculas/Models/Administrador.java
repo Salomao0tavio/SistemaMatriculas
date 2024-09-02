@@ -2,9 +2,6 @@ package com.matriculas.matriculas.Models;
 
 import com.matriculas.matriculas.Enums.StatusDisciplina;
 
-import com.matriculas.matriculas.Enums.Role;
-
-import java.util.List;
 
 public class Administrador extends Usuario{
 

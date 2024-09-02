@@ -15,9 +15,7 @@ public class Matricula {
         this.turma = turma;
         this.dataMatricula = LocalDateTime.now();
     }
-
     public Turma getTurma() {
         return this.turma;
     }
-
 }

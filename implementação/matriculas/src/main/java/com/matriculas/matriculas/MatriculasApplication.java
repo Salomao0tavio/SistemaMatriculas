@@ -1,195 +1,153 @@
 package com.matriculas.matriculas;
 
+import com.matriculas.matriculas.Dados.*;
+import com.matriculas.matriculas.Enums.Role;
 import com.matriculas.matriculas.Enums.TipoDisciplina;
 import com.matriculas.matriculas.Models.*;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-@SpringBootApplication
 public class MatriculasApplication {
 
-  private static List<Disciplina> disciplinas;
-  private static List<Aluno> alunos;
-  private static Administrador administrador;
+    public static void main(String[] args) {
+    PersistenciaUsuario persistenciaUsuario = new PersistenciaUsuario();
+    PersistenciaAluno persistenciaAluno = new PersistenciaAluno();
+    PersistenciaDisciplina persistenciaDisciplina = new PersistenciaDisciplina();
+    PersistenciaMatricula persistenciaMatricula = new PersistenciaMatricula();
 
-  public static void main(String[] args) {
-    // SpringApplication.run(MatriculasApplication.class, args);
-    inicializarDados();
+        Scanner scanner = new Scanner(System.in);
 
-    Scanner scanner = new Scanner(System.in);
-    int opcao;
+        // Login
+        System.out.println("Bem-vindo ao sistema de matrícula!");
+        System.out.print("Digite seu nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Digite sua senha: ");
+        String senha = scanner.nextLine();
 
-    do {
-      exibirMenu();
-      opcao = scanner.nextInt();
-      scanner.nextLine();
+        Usuario usuarioLogado = persistenciaUsuario.autenticar(nome, senha);
 
-      switch (opcao) {
-        case 1:
-          criarAluno(scanner);
-          break;
-        case 2:
-          criarDisciplina(scanner);
-          break;
-        case 3:
-          matricularAluno(scanner);
-          break;
-        case 4:
-          cancelarMatricula(scanner);
-          break;
-        case 5:
-          consultarDisciplinasDisponiveis(scanner);
-          break;
-        case 6:
-          verificarAtivacaoDisciplinas();
-          break;
-        case 0:
-          System.out.println("Saindo do sistema...");
-          break;
-        default:
-          System.out.println("Opção inválida! Tente novamente.");
-      }
+        if (usuarioLogado == null) {
+            System.out.println("Nome ou senha inválidos.");
+            return;
+        }
 
-    } while (opcao != 0);
+        System.out.println("Login bem-sucedido! Bem-vindo, " + usuarioLogado.getNome());
 
-    scanner.close();
-  }
+        boolean executando = true;
+        while (executando) {
+            if (usuarioLogado instanceof Aluno) {
+                exibirMenuAluno(scanner, (Aluno) usuarioLogado, persistenciaDisciplina, persistenciaMatricula);
+            } else if (usuarioLogado instanceof Professor) {
+                exibirMenuProfessor(scanner, (Professor) usuarioLogado);
+            } else if (usuarioLogado instanceof Administrador) {
+                exibirMenuAdministrador(scanner, (Administrador) usuarioLogado);
+            }
 
-  private static void exibirMenu() {
-    System.out.println("\nMenu de Opções:");
-    System.out.println("1. Criar Novo Aluno");
-    System.out.println("2. Criar Nova Disciplina");
-    System.out.println("3. Matricular Aluno em Disciplina");
-    System.out.println("4. Cancelar Matrícula de Aluno");
-    System.out.println("5. Consultar Disciplinas Disponíveis para Aluno");
-    System.out.println("6. Verificar Ativação de Disciplinas");
-    System.out.println("0. Sair");
-    System.out.print("Escolha uma opção: ");
-  }
+            System.out.println("Deseja realizar outra ação? (s/n)");
+            String resposta = scanner.nextLine();
+            if (!resposta.equalsIgnoreCase("s")) {
+                executando = false;
+            }
+        }
 
-  private static void inicializarDados() {
-    disciplinas = new ArrayList<>();
-    alunos = new ArrayList<>();
-    administrador = new Administrador("Administrador");
-  }
-
-  private static void criarAluno(Scanner scanner) {
-    System.out.print("Digite o nome do aluno: ");
-    String nome = scanner.nextLine();
-    Aluno novoAluno = new Aluno(nome);
-    alunos.add(novoAluno);
-    System.out.println("Aluno " + nome + " criado com sucesso!");
-  }
-
-  private static void criarDisciplina(Scanner scanner) {
-    System.out.print("Digite o código da disciplina: ");
-    String codigo = scanner.nextLine();
-
-    System.out.print("Digite o nome da disciplina: ");
-    String nome = scanner.nextLine();
-
-    System.out.print("Digite o nome do professor responsável: ");
-    String nomeProfessor = scanner.nextLine();
-    Professor professor = new Professor(nomeProfessor);
-
-    System.out.print("Digite o número de créditos da disciplina: ");
-    int creditos = scanner.nextInt();
-    scanner.nextLine();
-
-    System.out.print("Digite o número de vagas disponíveis: ");
-    int vagasDisponiveis = scanner.nextInt();
-    scanner.nextLine();
-
-    System.out.print("Digite o tipo da disciplina (1 para OBRIGATORIA, 2 para OPTATIVA): ");
-    int tipoOpcao = scanner.nextInt();
-    scanner.nextLine();
-
-    TipoDisciplina tipo = tipoOpcao == 1 ? TipoDisciplina.OBRIGATORIA : TipoDisciplina.OPTATIVA;
-
-    Disciplina novaDisciplina = new Disciplina(codigo, nome, professor, creditos, vagasDisponiveis, tipo);
-    disciplinas.add(novaDisciplina);
-    System.out.println("Disciplina " + nome + " criada com sucesso!");
-  }
-
-  private static void matricularAluno(Scanner scanner) {
-    Aluno aluno = selecionarAluno(scanner);
-    Disciplina disciplina = selecionarDisciplina(scanner);
-
-    if (aluno != null && disciplina != null) {
-      boolean sucesso = aluno.matricularEmDisciplina(disciplina);
-      if (sucesso) {
-        System.out.println("Aluno matriculado com sucesso!");
-      } else {
-        System.out.println("Não foi possível matricular o aluno na disciplina.");
-      }
+        System.out.println("Obrigado por usar o sistema!");
     }
-  }
 
-  private static void cancelarMatricula(Scanner scanner) {
-    Aluno aluno = selecionarAluno(scanner);
-    Disciplina disciplina = selecionarDisciplina(scanner);
+    private static void exibirMenuAluno(Scanner scanner, Aluno aluno, PersistenciaDisciplina persistenciaDisciplina, PersistenciaMatricula persistenciaMatricula) {
+        System.out.println("\n--- Menu do Aluno ---");
+        System.out.println("1. Matricular em disciplina");
+        System.out.println("2. Cancelar matrícula");
+        System.out.println("3. Consultar disciplinas disponíveis");
 
-    if (aluno != null && disciplina != null) {
-      boolean sucesso = aluno.cancelarMatricula(disciplina);
-      if (sucesso) {
-        System.out.println("Matrícula cancelada com sucesso!");
-      } else {
-        System.out.println("O aluno não está matriculado nesta disciplina.");
-      }
+        int opcao = Integer.parseInt(scanner.nextLine());
+
+        switch (opcao) {
+            case 1:
+                System.out.print("Digite o código da disciplina: ");
+                String codigoDisciplina = scanner.nextLine();
+                Disciplina disciplina = persistenciaDisciplina.carregar(codigoDisciplina);
+                if (disciplina != null && aluno.matricularEmDisciplina(disciplina)) {
+                    System.out.println("Matriculado com sucesso!");
+                } else {
+                    System.out.println("Erro ao matricular.");
+                }
+                break;
+            case 2:
+                System.out.print("Digite o código da disciplina: ");
+                codigoDisciplina = scanner.nextLine();
+                disciplina = persistenciaDisciplina.carregar(codigoDisciplina);
+                if (disciplina != null && aluno.cancelarMatricula(disciplina)) {
+                    System.out.println("Matrícula cancelada com sucesso!");
+                } else {
+                    System.out.println("Erro ao cancelar matrícula.");
+                }
+                break;
+            case 3:
+                List<Disciplina> disciplinasDisponiveis = aluno.consultarDisciplinasDisponiveis(new ArrayList<>()); // Considerando que lista de disciplinas está vazia apenas como exemplo
+                for (Disciplina d : disciplinasDisponiveis) {
+                    System.out.println(d.getNome());
+                }
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
     }
-  }
 
-  private static void consultarDisciplinasDisponiveis(Scanner scanner) {
-    Aluno aluno = selecionarAluno(scanner);
+    private static void exibirMenuProfessor(Scanner scanner, Professor professor) {
+        System.out.println("\n--- Menu do Professor ---");
+        System.out.println("1. Consultar alunos matriculados");
 
-    if (aluno != null) {
-      ArrayList<Disciplina> disciplinasDisponiveis = aluno
-          .consultarDisciplinasDisponiveis(new ArrayList<>(disciplinas));
-      System.out.println("Disciplinas disponíveis para " + aluno.getNome() + ":");
-      for (Disciplina disciplina : disciplinasDisponiveis) {
-        System.out.println("- " + disciplina.getNome());
-      }
+        int opcao = Integer.parseInt(scanner.nextLine());
+
+        switch (opcao) {
+            case 1:
+                System.out.print("Digite o código da disciplina: ");
+                String codigoDisciplina = scanner.nextLine();
+                // Aqui você deveria carregar a disciplina e passar para consultarAlunosMatriculados
+                // Exemplo simplificado:
+                List<Aluno> alunos = professor.consultarAlunosMatriculados(new Disciplina(codigoDisciplina, "Disciplina", 4, TipoDisciplina.Obrigatoria));
+                for (Aluno aluno : alunos) {
+                    System.out.println(aluno.getNome());
+                }
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
     }
-  }
 
-  private static void verificarAtivacaoDisciplinas() {
-    administrador.verificarAtivacaoDisciplinas(disciplinas);
-    System.out.println("Verificação de ativação de disciplinas concluída.");
-  }
+    private static void exibirMenuAdministrador(Scanner scanner, Administrador administrador) {
+        System.out.println("\n--- Menu do Administrador ---");
+        System.out.println("1. Verificar ativação de turmas");
+        System.out.println("2. Notificar alunos");
+        System.out.println("3. Notificar sistema");
 
-  private static Aluno selecionarAluno(Scanner scanner) {
-    System.out.println("Selecione o aluno:");
-    for (int i = 0; i < alunos.size(); i++) {
-      System.out.println((i + 1) + ". " + alunos.get(i).getNome());
+        int opcao = Integer.parseInt(scanner.nextLine());
+
+        switch (opcao) {
+            case 1:
+                // Lista de turmas, exemplo:
+                List<Turma> turmas = new ArrayList<>();
+                administrador.verificarAtivacaoturma(turmas);
+                System.out.println("Ativação de turmas verificada.");
+                break;
+            case 2:
+                System.out.print("Digite o status da turma: ");
+                String status = scanner.nextLine();
+                // Considerando uma turma como exemplo
+                administrador.notificarAlunos(new Turma(), status);
+                System.out.println("Alunos notificados.");
+                break;
+            case 3:
+                System.out.print("Digite o status da turma: ");
+                status = scanner.nextLine();
+                administrador.notificarSistema(new Turma(), status);
+                System.out.println("Sistema notificado.");
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
     }
-    int opcaoAluno = scanner.nextInt();
-    scanner.nextLine();
-
-    if (opcaoAluno > 0 && opcaoAluno <= alunos.size()) {
-      return alunos.get(opcaoAluno - 1);
-    } else {
-      System.out.println("Aluno inválido!");
-      return null;
-    }
-  }
-
-  private static Disciplina selecionarDisciplina(Scanner scanner) {
-    System.out.println("Selecione a disciplina:");
-    for (int i = 0; i < disciplinas.size(); i++) {
-      System.out.println((i + 1) + ". " + disciplinas.get(i).getNome());
-    }
-    int opcaoDisciplina = scanner.nextInt();
-    scanner.nextLine();
-
-    if (opcaoDisciplina > 0 && opcaoDisciplina <= disciplinas.size()) {
-      return disciplinas.get(opcaoDisciplina - 1);
-    } else {
-      System.out.println("Disciplina inválida!");
-      return null;
-    }
-  }
 }
