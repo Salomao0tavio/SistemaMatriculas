@@ -2,14 +2,19 @@ package com.matriculas.matriculas.Models;
 
 import com.matriculas.matriculas.Enums.StatusDisciplina;
 
+import com.matriculas.matriculas.Enums.Role;
+
 import java.util.List;
 
-public class Administrador {
-    private int id;
-    private final String nome;
+public class Administrador extends Usuario{
 
-    public Administrador(String nome) {
-        this.nome = nome;
+    /**
+     * Construtor para criar uma nova instância de Administrador.
+     *
+     * @param nome Nome do administrador.
+     */
+    public Administrador(String nome, String senha, int id) {
+        super(id, nome, senha, Role.ADMINISTRADOR);
     }
 
     public void notificarAlunos(Turma turma, StatusDisciplina status) {

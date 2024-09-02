@@ -1,19 +1,23 @@
 package com.matriculas.matriculas.Models;
 
 import com.matriculas.matriculas.Enums.StatusDisciplina;
+import com.matriculas.matriculas.Enums.Role;
 import com.matriculas.matriculas.Enums.TipoDisciplina;
 
 import java.util.ArrayList;
 
-public class Aluno {
+public class Aluno extends Usuario {
 
-    private int id;
-    private final String nome;
-    private final ArrayList<Turma> turmas;
+    private ArrayList<Matricula> matriculas;
 
-    public Aluno(String nome) {
-        this.nome = nome;
-        this.turmas = new ArrayList<>();
+    /**
+     * Construtor para criar uma nova instância de Aluno.
+     *
+     * @param nome Nome do aluno.
+     */
+    public Aluno(String nome, String senha, int id) {
+        super(id, nome, senha, Role.ALUNO);
+        this.matriculas = new ArrayList<>();
     }
 
     public boolean matricularEmDisciplina(Turma turma) {
@@ -65,6 +69,9 @@ public class Aluno {
         return turmasDisponiveis;
     }
 
+    /**
+     * @param mensagem de aviso para o aluno
+     */
     public void receberNotificacao(String mensagem) {
         //TODO: Implementacao
     }
@@ -94,14 +101,6 @@ public class Aluno {
                 obrigatorias++;
         }
         return obrigatorias;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public String getNome() {
-        return this.nome;
     }
 
     //#endregion
