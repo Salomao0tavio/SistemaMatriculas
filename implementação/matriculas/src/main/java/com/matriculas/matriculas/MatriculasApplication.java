@@ -1,8 +1,5 @@
 package com.matriculas.matriculas;
 
-import com.matriculas.matriculas.Dados.*;
-import com.matriculas.matriculas.Enums.Role;
-import com.matriculas.matriculas.Enums.TipoDisciplina;
 import com.matriculas.matriculas.Models.*;
 
 import java.time.LocalDateTime;
@@ -13,10 +10,6 @@ import java.util.Scanner;
 public class MatriculasApplication {
 
     public static void main(String[] args) {
-    PersistenciaUsuario persistenciaUsuario = new PersistenciaUsuario();
-    PersistenciaAluno persistenciaAluno = new PersistenciaAluno();
-    PersistenciaDisciplina persistenciaDisciplina = new PersistenciaDisciplina();
-    PersistenciaMatricula persistenciaMatricula = new PersistenciaMatricula();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -39,7 +32,7 @@ public class MatriculasApplication {
         boolean executando = true;
         while (executando) {
             if (usuarioLogado instanceof Aluno) {
-                exibirMenuAluno(scanner, (Aluno) usuarioLogado, persistenciaDisciplina, persistenciaMatricula);
+                exibirMenuAluno(scanner, (Aluno) usuarioLogado);
             } else if (usuarioLogado instanceof Professor) {
                 exibirMenuProfessor(scanner, (Professor) usuarioLogado);
             } else if (usuarioLogado instanceof Administrador) {
@@ -56,7 +49,8 @@ public class MatriculasApplication {
         System.out.println("Obrigado por usar o sistema!");
     }
 
-    private static void exibirMenuAluno(Scanner scanner, Aluno aluno, PersistenciaDisciplina persistenciaDisciplina, PersistenciaMatricula persistenciaMatricula) {
+    private static void exibirMenuAluno(Scanner scanner, Aluno aluno, PersistenciaDisciplina persistenciaDisciplina,
+            PersistenciaMatricula persistenciaMatricula) {
         System.out.println("\n--- Menu do Aluno ---");
         System.out.println("1. Matricular em disciplina");
         System.out.println("2. Cancelar matrícula");
@@ -86,7 +80,16 @@ public class MatriculasApplication {
                 }
                 break;
             case 3:
-                List<Disciplina> disciplinasDisponiveis = aluno.consultarDisciplinasDisponiveis(new ArrayList<>()); // Considerando que lista de disciplinas está vazia apenas como exemplo
+                List<Disciplina> disciplinasDisponiveis = aluno.consultarDisciplinasDisponiveis(new ArrayList<>()); // Considerando
+                                                                                                                    // que
+                                                                                                                    // lista
+                                                                                                                    // de
+                                                                                                                    // disciplinas
+                                                                                                                    // está
+                                                                                                                    // vazia
+                                                                                                                    // apenas
+                                                                                                                    // como
+                                                                                                                    // exemplo
                 for (Disciplina d : disciplinasDisponiveis) {
                     System.out.println(d.getNome());
                 }
@@ -106,9 +109,11 @@ public class MatriculasApplication {
             case 1:
                 System.out.print("Digite o código da disciplina: ");
                 String codigoDisciplina = scanner.nextLine();
-                // Aqui você deveria carregar a disciplina e passar para consultarAlunosMatriculados
+                // Aqui você deveria carregar a disciplina e passar para
+                // consultarAlunosMatriculados
                 // Exemplo simplificado:
-                List<Aluno> alunos = professor.consultarAlunosMatriculados(new Disciplina(codigoDisciplina, "Disciplina", 4, TipoDisciplina.Obrigatoria));
+                List<Aluno> alunos = professor.consultarAlunosMatriculados(
+                        new Disciplina(codigoDisciplina, "Disciplina", 4, TipoDisciplina.Obrigatoria));
                 for (Aluno aluno : alunos) {
                     System.out.println(aluno.getNome());
                 }
@@ -128,8 +133,7 @@ public class MatriculasApplication {
 
         switch (opcao) {
             case 1:
-                // Lista de turmas, exemplo:
-                List<Turma> turmas = new ArrayList<>();
+                ArrayList<Turma> turmas = new ArrayList();
                 administrador.verificarAtivacaoturma(turmas);
                 System.out.println("Ativação de turmas verificada.");
                 break;
