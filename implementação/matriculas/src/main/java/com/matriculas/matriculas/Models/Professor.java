@@ -19,14 +19,8 @@ public class Professor extends Usuario{
         this.disciplinas = new ArrayList<>();
     }
 
-    /**
-     * Consulta a lista de alunos matriculados em uma disciplina específica.
-     *
-     * @param disciplina A disciplina que o professor deseja consultar.
-     * @return Lista de alunos matriculados na disciplina, se nao houver retorna uma lista vazia.
-     */
-    public List<Aluno> consultarAlunosMatriculados(Disciplina disciplina) {
-        ArrayList<Aluno> alunos = disciplina.getMatriculados();
+    public List<Aluno> consultarAlunosMatriculados(Turma turma) {
+        ArrayList<Aluno> alunos = turma.getMatriculados();
         if(!alunos.isEmpty())
             return alunos;
         return new ArrayList<>();

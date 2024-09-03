@@ -11,13 +11,14 @@ public class Usuario {
     private String senha;
     private Role role;
 
-    public Usuario(int id, String nome, String senha, Role role){
+    public Usuario(int id, String nome, String senha, Role role) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
         this.role = role;
     }
-    public boolean Login(Usuario u, String senha) throws NoSuchAlgorithmException{
+
+    public boolean Login(Usuario u, String senha) throws NoSuchAlgorithmException {
         return u.getSenha().equals(encriptandoSenha(senha)) ? true : false;
     }
 
@@ -25,13 +26,13 @@ public class Usuario {
         return this.senha;
     }
 
-    public void Cadastro(String nome, String senha, Role role) throws NoSuchAlgorithmException{
+    public void Cadastro(String nome, String senha, Role role) throws NoSuchAlgorithmException {
         this.nome = nome;
         this.senha = encriptandoSenha(senha);
-        this.role = role;        
+        this.role = role;
     }
 
-    public String encriptandoSenha(String senha) throws NoSuchAlgorithmException{
+    public String encriptandoSenha(String senha) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(senha.getBytes());
 
@@ -45,6 +46,17 @@ public class Usuario {
     }
 
 
+    public int getId() {
+        return this.id;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public Role getRole() {
+        return this.role;
+    }
 }
 
 
